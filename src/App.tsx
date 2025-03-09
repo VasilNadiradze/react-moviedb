@@ -12,6 +12,7 @@ function App() {
         <Routes>
           <Route path="/" element={<Home />} />
           <Route path="/favorites" element={<Favorites />} />
+          <Route path="*" element={<h2>404 - გვერდი ვერ მოიძებნა</h2>} />
         </Routes>
       </main>
     </MovieProvider>

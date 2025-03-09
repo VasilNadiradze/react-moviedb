@@ -6,13 +6,13 @@ import {
   ReactNode,
 } from "react";
 
-// ✅ Define the Movie type
+// აღვწეროთ ტიპი Movie
 interface Movie {
   id: number;
   title: string;
 }
 
-// ✅ Define the context type
+// აღვწეროთ ფავორიტი ფილმების კონტექსტის ტიპი
 interface MovieContextType {
   favorites: Movie[];
   addToFavorites: (movie: Movie) => void;
@@ -20,23 +20,24 @@ interface MovieContextType {
   isFavorite: (movieId: number) => boolean;
 }
 
-// ✅ Define props for the provider
+// აღვწეროთ კონტექსტის პროვაიდერის რეკვიზიტები
 interface MovieProviderProps {
   children: ReactNode;
 }
 
-// ✅ Create the context with an explicit type
-const MovieContext = createContext<MovieContextType | undefined>(undefined);
+// შევქმნათ კონტექსტი და განვუსაზღვროთ ტიპი
+const MovieContext = createContext<MovieContextType | null>(null);
 
 export const useMovieContext = () => {
   const context = useContext(MovieContext);
   if (!context) {
-    throw new Error("useMovieContext must be used within a MovieProvider");
+    throw new Error(
+      "useMovieContext უნდა გამოვიყენოთ მხოლოდ MovieProvider პროვაიდერში"
+    );
   }
   return context;
 };
 
-// ✅ Correctly type the MovieProvider
 const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
   const [favorites, setFavorites] = useState<Movie[]>([]);
 
@@ -44,18 +45,18 @@ const MovieProvider: React.FC<MovieProviderProps> = ({ children }) => {
     const storedFavs = localStorage.getItem("favorites");
     if (storedFavs) {
       try {
-        setFavorites(JSON.parse(storedFavs) || []); // ✅ Ensure it's always an array
+        setFavorites(JSON.parse(storedFavs) || []); // დავრწმუნდეთ რომ ყოველთვის მასივია
       } catch (error) {
-        console.error("Error parsing favorites from localStorage:", error);
-        setFavorites([]); // ✅ Fallback to empty array if parsing fails
+        setFavorites([]); // ხარვეზის შემთხვევაში ფავორიტებად ჩავსვათ ცარიელი მასივი
       }
     }
   }, []);
 
   useEffect(() => {
     if (favorites.length > 0) {
-      // ✅ Only save if there are favorites
       localStorage.setItem("favorites", JSON.stringify(favorites));
+    } else {
+      localStorage.removeItem("favorites");
     }
   }, [favorites]);
 

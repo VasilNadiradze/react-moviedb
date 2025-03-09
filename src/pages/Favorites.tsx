@@ -5,7 +5,7 @@ import MovieCard from "../components/MovieCard";
 function Favorites() {
   const { favorites } = useMovieContext();
 
-  if (favorites) {
+  if (favorites && favorites.length > 0) {
     return (
       <div className="favorites">
         <h2>ფავორიტი ფილმები</h2>
@@ -20,7 +20,7 @@ function Favorites() {
 
   return (
     <div className="favorites-empty">
-      <h2>თქვენ არ გაქვთ ფავორიტი ფილმები</h2>
+      <h3>თქვენ არ გაქვთ ფავორიტი ფილმები</h3>
     </div>
   );
 }
