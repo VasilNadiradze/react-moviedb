@@ -59,10 +59,7 @@ function Home() {
           className="search-input"
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
-        />
-        <button type="submit" className="search-button">
-          ძებნა
-        </button>
+        />        
       </form>
 
       {error && <div className="error-message">{error}</div>}
